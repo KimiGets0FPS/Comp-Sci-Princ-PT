@@ -22,13 +22,14 @@ def check(data_set):
 
 def bogo_sort(data_set):
     print("This might take a while!")
-    start = time.time()
 
     def _sorted():
         for i in range(1, len(data_set)):
             if data_set[i-1] > data_set[i]:
                 return False
         return True
+    
+    start = time.time()
 
     while not _sorted():  # If _sorted returns False, it means that the list is not sorted, and shuffles the list again.
         random.shuffle(data_set)
@@ -53,43 +54,43 @@ def bubble_sort(data_set):  # Basic Bubble sort algorithm
 
 def merge_sort(data_set):
     start = time.time()
-    end = time.time() - start
 
     def _merge_sort(ds):
-        if len(ds) > 2:  # if list ds is already 2 (which is in a pair)
-            return ds  # Then return ds so it could be merged and sorted
+        if len(ds) > 1:  # if list ds is already 2 (which is in a pair)
         # First half of the list being fed into the same function to be split it up and sorted
-        mid = len(ds) // 2
-        left = _merge_sort(ds[:mid])
-        # Second half of the list being fed into the same function to be split it up and sorted
-        right = _merge_sort(ds[mid:])
+            mid = len(ds) // 2
+            left = ds[:mid]
+            right = ds[mid:]
 
-        if not len(left) or not len(right):
-            if len(left):
-                return right
-            return left
+            # First half of the list being fed into the same function to be split 
+            _merge_sort(left)
+            # Second half of the list being fed into the same function to be split it up and sorted
+            _merge_sort(right)
 
-        # Merging the left list and right list and making a sorted list
-        x, y = 0, 0  # x will be for left, and y will be for right
-        output = []  # This will be the final output
-        while len(left) + len(right) > len(output):
-            if left[x] < right[y]:
-                output.append(left[x])
+            # Merging the left list and right list and making a sorted list
+            x, y, z = 0, 0, 0  # x will be for left, and y will be for right
+            # output = []  # This will be the final output
+            while len(left) > x and len(right) > y:
+                if left[x] < right[y]:
+                    ds[z] = left[x]
+                    x += 1
+                else:
+                    ds[z] = right[y]
+                    y += 1
+                z += 1
+            # Puts the rest of the list (that is not done merging) into output
+            while len(left) > x:
+                ds[z] = left[x]
                 x += 1
-            else:
-                output.append(right[y])
+                z += 1
+            while len(right) > y:
+                ds[z] = right[y]
                 y += 1
-            if len(left) == x or len(right) == y:  # Sees if either list is done merging
-                # Puts the rest of the list (that is not done merging) into output
-                if len(left) - x:
-                    output.extend(right[y:])
-                else:  # elif len(right) - y
-                    output.extend(left[x:])
-                break
+                z += 1
 
-        return output
+    _merge_sort(data_set)  # This requires recursion so it is written as a seperate procedure
 
-    data_set = _merge_sort(data_set)  # This requires recursion
+    end = time.time() - start
 
     if check(data_set=data_set) == -1:
         return -1
@@ -124,15 +125,14 @@ def generate_data_set(size):  # Generates a random list depending on the paramet
             ds.append(random.randint(0, 10000))
         return ds
     print("Must enter a number that is greater than 500 and less than 1,000,000!")
+    return generate_data_set(int(input("Enter the size of data set (from 500 to 1,000,000): ")))
 
 
 def main():  # Manages basic user inputs
     print("Welcome to Sorting Simulator!\nPress Enter to quit anytime!")
-    while True:  # Getting a range of numbers to generate a list of random numbers (0 - 10,000,000)
-        ds = generate_data_set(size=int(input("Enter the size of data set (from 500 to 1,000,000): ")))
-        # Gets the input of the user and is put into the argument of the function
-        if ds != -1:
-            break
+    # Getting a range of numbers to generate a list of random numbers (0 - 10,000,000)
+    ds = generate_data_set(size=int(input("Enter the size of data set (from 500 to 1,000,000): ")))
+    # Gets the input of the user and is put into the argument of the function
     while True:  # Getting user's input to display which sorting algorithm to use
         timing = -1
         type_sort = input(
@@ -151,7 +151,6 @@ def main():  # Manages basic user inputs
         elif int(type_sort) == 2:
             timing = bubble_sort(data_set=ds)
         elif int(type_sort) == 3:
-            # TODO: FIX MERGE SORT
             timing = merge_sort(data_set=ds)
         elif int(type_sort) == 4:
             timing = counting_sort(data_set=ds)
