@@ -3,9 +3,22 @@ import random
 # deck of cards
 import time
 # The time package is used in this program to time each sorting algorithm
+import os
+# The os package is used in thsi program to clear the terminal
+
+
+def clear():
+    """
+    This function is used to clear the terminal
+    """
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def check(data_set):
+    """
+    Used to check if the data set is sorted or not. 
+    Returns -1 if isn't sorted
+    """
     # This function is used to check if the data_set is sorted
     for i in range(1, len(data_set)):
         if data_set[i-1] > data_set[i]:  # Checks if the previous element is greater than the current element
@@ -16,13 +29,21 @@ def check(data_set):
 
 
 def bogo_sort(data_set):
+    """
+    This function shuffles the parameter data_set until it is sorted.
+    returns end - time spent sorting
+
+    Implements another function inside this funciton
+        - Checks if the data_set is sorted by iterating through the data_set and checking 
+        if the previous element is smaller than the current element
+    """
     print("This might take a while!")
 
-    def _sorted():  # Checks if the data_set is sorted
+    def _sorted():
         for i in range(1, len(data_set)):
-            if data_set[i-1] > data_set[i]:  # If the previous element is greater than the current element, then that means that the data_set is not sorted
-                return False  # Returns False
-        return True   # After checking through the whole list, it will then return True because the list would be sorted
+            if data_set[i-1] > data_set[i]:
+                return False
+        return True  # After checking through the whole list, it will then return True because the list would be sorted
     
     start = time.time()
 
@@ -36,6 +57,11 @@ def bogo_sort(data_set):
 
 
 def bubble_sort(data_set):  # Basic Bubble sort algorithm
+    """
+    Goes through the parameter data_set n^2 times
+    Swaps the previous data_set element with the current one if the previous one is greater than the current one.
+    returns end - time spent sorting
+    """
     start = time.time()  # Starting the 'timer'
     for i in range(len(data_set)):
         for j in range(len(data_set)-i-1):
@@ -48,6 +74,11 @@ def bubble_sort(data_set):  # Basic Bubble sort algorithm
 
 
 def merge_sort(data_set):
+    """
+    Keeps splitting the parameter data_set into two halves until it is sorted.
+
+    Returns end - time spent sorting when done
+    """
     start = time.time()
 
     def _merge_sort(ds):
@@ -57,7 +88,7 @@ def merge_sort(data_set):
             left = ds[:mid]
             right = ds[mid:]
 
-            # First half of the list being fed into the same function to be split 
+            # First half of the list being fed into the same function to be split
             _merge_sort(left)
             # Second half of the list being fed into the same function to be split it up and sorted
             _merge_sort(right)
@@ -92,8 +123,13 @@ def merge_sort(data_set):
     return end
 
 
-def counting_sort(data_set):  # Counting sort algorithm
-    # Very fast but uses quit a lot of space.
+def counting_sort(data_set):
+    """
+    Sorts the parameter data_set using the counting sort algorithm. Uses counting (literally) to compress and decompress the 
+    data_set array
+
+    Very fast, but takes a lot of space (space depends on the largest value in data_set)
+    """
     start = time.time()  # Starting the 'timer'
 
     biggest = max(data_set)  # Finds the biggest number in the data_set list
@@ -113,7 +149,13 @@ def counting_sort(data_set):  # Counting sort algorithm
     return end
 
 
-def generate_data_set(size):  # Generates a random list depending on the parameter
+def generate_data_set(size):
+    """
+    Generates a random list with a size of variable size. Value of each element will be between 0 to 100,000
+
+    Determines if size is bigger than 1,000 and smaller than 10,00,000
+        - If it is, then it will call the function again and prompts the user for another number
+    """
     if 1000 <= size <= 1000000:
         ds = []
         for _ in range(size):
@@ -125,13 +167,24 @@ def generate_data_set(size):  # Generates a random list depending on the paramet
 
 
 def get_user_sort(ds):
-    while True:  # Getting user's input to display which sorting algorithm to use
+    """
+    This function gets the user's input to display the time spent sorting the parameter ds using different sorting algorithms.
+    
+    For bogosort, to improve the time spent running, the size of the data_set is reduced 100 times, but is multiplyed back when determining
+    the time required to sort the data set
+
+    Clears the terminal after everytime the time is displayed and the user presses enter
+
+    If the user presses enter for type_sort variable, then it will exit this function
+    """
+    while True:
         timing = -1
+        # Expanded for better readability
         type_sort = input(
-            "1. Bogo Sort - Time Complexity: O((n+1)!)\n"  # Incredibly inefficient, pinnacle of brute force
+            "1. Bogo Sort - Time Complexity: O((n-1)n!)\n"  # Incredibly inefficient, pinnacle of brute force
             "2. Bubble Sort - Time Complexity: O(n^2)\n"  # Most basic and straight forward sorting algorithm
             "3. Merge Sort - Time Complexity: O(n*log(n))\n"  # Very fast and light
-            "4. Counting Sort - Time Complexity: O(n+K)\n"  # V ery fast, but requires a lot of computational space
+            "4. Counting Sort - Time Complexity: O(n+K)\n"  # Very fast, but requires a lot of computational space
             "Enter the number of the sort you want to time (Enter to quit): "
         )
         if not type_sort:
@@ -139,7 +192,7 @@ def get_user_sort(ds):
 
         if int(type_sort) == 1:
             # Since bogosort takes a long time, we can shorten the time the algorithm spends running
-            print(f"Time Required: {bogo_sort(data_set=ds[:len(ds)//100]) * 100}ms")
+            print(f"Time Required: {bogo_sort(data_set=ds[:len(ds)//100]) * 100000}ms")
         elif int(type_sort) == 2:
             timing = bubble_sort(data_set=ds)
         elif int(type_sort) == 3:
@@ -149,14 +202,23 @@ def get_user_sort(ds):
         else:
             print("That is an invalid choice!")
         if timing != -1:
-            print(f"Time Required: {timing * 1000} ms")
+            print(f"Time Required: {timing * 1000}ms")
         input("Press Enter to continue...")
+        clear()
     print("Exiting...")
 
 
-def main():  # Manages basic user inputs
+def main():
+    """
+    Clears the terminal so it is easier for the user to read and focus on the program
+
+    Prompts the user to enter an integer that represents the size of the data set.
+
+    The user will then be prompted to select the sorting algorithm. After the function is exited, the main function will also exit
+    """
+    clear()
     print("Welcome to Sorting Simulator!\nPress Enter to quit anytime!")
-    # Getting a range of numbers to generate a list of random numbers (0 - 10,000,000)
+    # Getting a range of numbers to generate a list of random numbers (1,000 - 10,000,000)
     ds = generate_data_set(size=int(input("Enter the size of data set (from 1000 to 1,000,000): ")))
     # Gets the input of the user and is put into the argument of the function
     get_user_sort(ds)
@@ -167,4 +229,3 @@ def main():  # Manages basic user inputs
 if __name__ == "__main__":
     main()
     print("Thank you for using this program!")
-
