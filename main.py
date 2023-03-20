@@ -4,7 +4,7 @@ import random
 import time
 # The time package is used in this program to time each sorting algorithm
 import os
-# The os package is used in thsi program to clear the terminal
+# The os package is used in this program to clear the terminal
 
 
 def clear():
@@ -16,12 +16,12 @@ def clear():
 
 def check(data_set):
     """
-    Used to check if the data set is sorted or not. 
+    Used to check if the data set is sorted or not.
     Returns -1 if isn't sorted
     """
     # This function is used to check if the data_set is sorted
     for i in range(1, len(data_set)):
-        if data_set[i-1] > data_set[i]:  # Checks if the previous element is greater than the current element
+        if data_set[i - 1] > data_set[i]:  # Checks if the previous element is greater than the current element
             print("Sorting Failed.")
             return -1
     # prints if the procedure iterates through the list without having one element that is greater than the next element
@@ -33,24 +33,24 @@ def bogo_sort(data_set):
     This function shuffles the parameter data_set until it is sorted.
     returns end - time spent sorting
 
-    Implements another function inside this funciton
-        - Checks if the data_set is sorted by iterating through the data_set and checking 
+    Implements another function inside this function
+        - Checks if the data_set is sorted by iterating through the data_set and checking
         if the previous element is smaller than the current element
     """
     print("This might take a while!")
 
     def _sorted():
         for i in range(1, len(data_set)):
-            if data_set[i-1] > data_set[i]:
+            if data_set[i - 1] > data_set[i]:
                 return False
         return True  # After checking through the whole list, it will then return True because the list would be sorted
-    
+
     start = time.time()
 
     while not _sorted():  # If _sorted returns False, it means that the list is not sorted, and shuffles the list again.
         random.shuffle(data_set)  # Randomly shuffles the data_set
 
-    end = time.time()-start
+    end = time.time() - start
     if check(data_set=data_set) == -1:
         return -1
     return end
@@ -64,9 +64,9 @@ def bubble_sort(data_set):  # Basic Bubble sort algorithm
     """
     start = time.time()  # Starting the 'timer'
     for i in range(len(data_set)):
-        for j in range(len(data_set)-i-1):
-            if data_set[j] > data_set[j+1]:
-                data_set[j], data_set[j+1] = data_set[j+1], data_set[j]  # Swaps the two elements in the the list
+        for j in range(len(data_set) - i - 1):
+            if data_set[j] > data_set[j + 1]:
+                data_set[j], data_set[j + 1] = data_set[j + 1], data_set[j]  # Swaps the two elements in the list
     end = time.time() - start  # Generate the time and subtract it from the starting time to get the time spent sorting
     if check(data_set=data_set) == -1:  # Checks whether if the data_set is sorted or not
         return -1
@@ -82,8 +82,8 @@ def merge_sort(data_set):
     start = time.time()
 
     def _merge_sort(ds):
-        if len(ds) > 1:  # if list ds is already 2 (which is in a pair)
-        # First half of the list being fed into the same function to be split it up and sorted
+        if len(ds) > 1:  # if length of ds is already 2
+            # First half of the list being fed into the same function to be split it up and sorted
             mid = len(ds) // 2
             left = ds[:mid]
             right = ds[mid:]
@@ -94,27 +94,28 @@ def merge_sort(data_set):
             _merge_sort(right)
 
             # Merging the left list and right list and making a sorted list
-            x, y, z = 0, 0, 0  # x will be for left, and y will be for right
+            L, R, i = 0, 0, 0  # l will be for left, and r will be for right, and variable i will be for the current
+            # index
             # output = []  # This will be the final output
-            while len(left) > x and len(right) > y:
-                if left[x] < right[y]:
-                    ds[z] = left[x]
-                    x += 1
+            while len(left) > L and len(right) > R:
+                if left[L] < right[R]:
+                    ds[i] = left[L]
+                    L += 1
                 else:
-                    ds[z] = right[y]
-                    y += 1
-                z += 1
+                    ds[i] = right[R]
+                    R += 1
+                i += 1
             # Puts the rest of the list (that is not done merging) into output
-            while len(left) > x:
-                ds[z] = left[x]
-                x += 1
-                z += 1
-            while len(right) > y:
-                ds[z] = right[y]
-                y += 1
-                z += 1
+            while len(left) > L:
+                ds[i] = left[L]
+                L += 1
+                i += 1
+            while len(right) > R:
+                ds[i] = right[R]
+                R += 1
+                i += 1
 
-    _merge_sort(data_set)  # This requires recursion so it is written as a seperate procedure
+    _merge_sort(data_set)  # This requires recursion, so it is written as a separate procedure
 
     end = time.time() - start
 
@@ -125,8 +126,8 @@ def merge_sort(data_set):
 
 def counting_sort(data_set):
     """
-    Sorts the parameter data_set using the counting sort algorithm. Uses counting (literally) to compress and decompress the 
-    data_set array
+    Sorts the parameter data_set using the counting sort algorithm. Uses counting (literally) to compress and
+    decompress the data_set array
 
     Very fast, but takes a lot of space (space depends on the largest value in data_set)
     """
@@ -151,7 +152,7 @@ def counting_sort(data_set):
 
 def generate_data_set(size):
     """
-    Generates a random list with a size of variable size. Value of each element will be between 0 to 100,000
+    Generates a random list with a size of variable size. Value of each element will be between 0 and 100,000
 
     Determines if size is bigger than 1,000 and smaller than 10,00,000
         - If it is, then it will call the function again and prompts the user for another number
@@ -162,16 +163,18 @@ def generate_data_set(size):
             ds.append(random.randint(0, 10000))
         return ds
     print("Must enter a number that is greater than 1000 and less than 1,000,000!")
+    clear()
     # Recursion so main() only needs to call this function once without while loop
     return generate_data_set(int(input("Enter the size of data set (from 1000 to 1,000,000): ")))
 
 
 def get_user_sort(ds):
     """
-    This function gets the user's input to display the time spent sorting the parameter ds using different sorting algorithms.
-    
-    For bogosort, to improve the time spent running, the size of the data_set is reduced 100 times, but is multiplyed back when determining
-    the time required to sort the data set
+    This function gets the user's input to display the time spent sorting the parameter ds using different sorting
+    algorithms.
+
+    For bogosort, to improve the time spent running, the size of the data_set is reduced 100 times, but is multiple
+    back when determining the time required to sort the data set
 
     Clears the terminal after everytime the time is displayed and the user presses enter
 
@@ -192,7 +195,7 @@ def get_user_sort(ds):
 
         if int(type_sort) == 1:
             # Since bogosort takes a long time, we can shorten the time the algorithm spends running
-            print(f"Time Required: {bogo_sort(data_set=ds[:len(ds)//100]) * 100000}ms")
+            print(f"Time Required: {bogo_sort(data_set=ds[:len(ds) // 100]) * 100000}ms")
         elif int(type_sort) == 2:
             timing = bubble_sort(data_set=ds)
         elif int(type_sort) == 3:
@@ -210,11 +213,12 @@ def get_user_sort(ds):
 
 def main():
     """
-    Clears the terminal so it is easier for the user to read and focus on the program
+    Clears the terminal, so it is easier for the user to read and focus on the program
 
     Prompts the user to enter an integer that represents the size of the data set.
 
-    The user will then be prompted to select the sorting algorithm. After the function is exited, the main function will also exit
+    The user will then be prompted to select the sorting algorithm. After the function is exited, the main function
+    will also exit
     """
     clear()
     print("Welcome to Sorting Simulator!\nPress Enter to quit anytime!")
