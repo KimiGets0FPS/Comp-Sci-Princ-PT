@@ -82,7 +82,7 @@ def merge_sort(data_set):
     start = time.time()
 
     def _merge_sort(ds):
-        if len(ds) > 1:  # if list ds is already 2 (which is in a pair)
+        if len(ds) > 1:  # if length of ds is already 2
         # First half of the list being fed into the same function to be split it up and sorted
             mid = len(ds) // 2
             left = ds[:mid]
@@ -94,25 +94,25 @@ def merge_sort(data_set):
             _merge_sort(right)
 
             # Merging the left list and right list and making a sorted list
-            x, y, z = 0, 0, 0  # x will be for left, and y will be for right
+            l, r, i = 0, 0, 0  # l will be for left, and r will be for right, and i will be for the current index
             # output = []  # This will be the final output
-            while len(left) > x and len(right) > y:
-                if left[x] < right[y]:
-                    ds[z] = left[x]
-                    x += 1
+            while len(left) > l and len(right) > r:
+                if left[l] < right[r]:
+                    ds[i] = left[l]
+                    l += 1
                 else:
-                    ds[z] = right[y]
-                    y += 1
-                z += 1
+                    ds[i] = right[r]
+                    r += 1
+                i += 1
             # Puts the rest of the list (that is not done merging) into output
-            while len(left) > x:
-                ds[z] = left[x]
-                x += 1
-                z += 1
-            while len(right) > y:
-                ds[z] = right[y]
-                y += 1
-                z += 1
+            while len(left) > l:
+                ds[i] = left[l]
+                l += 1
+                i += 1
+            while len(right) > r:
+                ds[i] = right[r]
+                r += 1
+                i += 1
 
     _merge_sort(data_set)  # This requires recursion so it is written as a seperate procedure
 
@@ -162,6 +162,7 @@ def generate_data_set(size):
             ds.append(random.randint(0, 10000))
         return ds
     print("Must enter a number that is greater than 1000 and less than 1,000,000!")
+    clear()
     # Recursion so main() only needs to call this function once without while loop
     return generate_data_set(int(input("Enter the size of data set (from 1000 to 1,000,000): ")))
 
