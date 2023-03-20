@@ -21,7 +21,7 @@ def check(data_set):
     """
     # This function is used to check if the data_set is sorted
     for i in range(1, len(data_set)):
-        if data_set[i - 1] > data_set[i]:  # Checks if the previous element is greater than the current element
+        if data_set[i-1] > data_set[i]:  # Checks if the previous element is greater than the current element
             print("Sorting Failed.")
             return -1
     # prints if the procedure iterates through the list without having one element that is greater than the next element
@@ -41,7 +41,7 @@ def bogo_sort(data_set):
 
     def _sorted():
         for i in range(1, len(data_set)):
-            if data_set[i - 1] > data_set[i]:
+            if data_set[i-1] > data_set[i]:
                 return False
         return True  # After checking through the whole list, it will then return True because the list would be sorted
 
@@ -64,9 +64,9 @@ def bubble_sort(data_set):  # Basic Bubble sort algorithm
     """
     start = time.time()  # Starting the 'timer'
     for i in range(len(data_set)):
-        for j in range(len(data_set) - i - 1):
-            if data_set[j] > data_set[j + 1]:
-                data_set[j], data_set[j + 1] = data_set[j + 1], data_set[j]  # Swaps the two elements in the list
+        for j in range(len(data_set)-i-1):
+            if data_set[j] > data_set[j+1]:
+                data_set[j], data_set[j+1] = data_set[j+1], data_set[j]  # Swaps the two elements in the list
     end = time.time() - start  # Generate the time and subtract it from the starting time to get the time spent sorting
     if check(data_set=data_set) == -1:  # Checks whether if the data_set is sorted or not
         return -1
@@ -94,25 +94,25 @@ def merge_sort(data_set):
             _merge_sort(right)
 
             # Merging the left list and right list and making a sorted list
-            L, R, i = 0, 0, 0  # l will be for left, and r will be for right, and variable i will be for the current
+            l, r, i = 0, 0, 0  # l will be for left, and r will be for right, and variable i will be for the current
             # index
             # output = []  # This will be the final output
-            while len(left) > L and len(right) > R:
-                if left[L] < right[R]:
-                    ds[i] = left[L]
-                    L += 1
+            while len(left) > l and len(right) > r:
+                if left[l] < right[r]:
+                    ds[i] = left[l]
+                    l += 1
                 else:
-                    ds[i] = right[R]
-                    R += 1
+                    ds[i] = right[r]
+                    r += 1
                 i += 1
             # Puts the rest of the list (that is not done merging) into output
-            while len(left) > L:
-                ds[i] = left[L]
-                L += 1
+            while len(left) > l:
+                ds[i] = left[l]
+                l += 1
                 i += 1
-            while len(right) > R:
-                ds[i] = right[R]
-                R += 1
+            while len(right) > r:
+                ds[i] = right[r]
+                r += 1
                 i += 1
 
     _merge_sort(data_set)  # This requires recursion, so it is written as a separate procedure
@@ -134,7 +134,7 @@ def counting_sort(data_set):
     start = time.time()  # Starting the 'timer'
 
     biggest = max(data_set)  # Finds the biggest number in the data_set list
-    count = [0] * (biggest + 1)  # Creates a list of 0's; the size will depend on the biggest number (plus 1)
+    count = [0] * (biggest+1)  # Creates a list of 0's; the size will depend on the biggest number (plus 1)
     for i in range(len(data_set)):
         count[data_set[i]] += 1
 
