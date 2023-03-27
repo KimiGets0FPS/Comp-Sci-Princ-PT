@@ -225,6 +225,7 @@ def main():
     # Getting a range of numbers to generate a list of random numbers (1,000 - 10,000,000)
     ds = generate_data_set(size=int(input("Enter the size of data set (from 1000 to 1,000,000): ")))
     # Gets the input of the user and is put into the argument of the function
+    clear()
     get_user_sort(ds)
     time.sleep(0.5)
     return
