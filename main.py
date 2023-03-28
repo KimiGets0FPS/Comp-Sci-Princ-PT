@@ -180,6 +180,10 @@ def get_user_sort(ds):
 
     If the user presses enter for type_sort variable, then it will exit this function
     """
+    bogo_avg = []
+    bubble_avg = []
+    merge_avg = []
+    counting_avg = []
     while True:
         timing = -1
         # Expanded for better readability
@@ -195,19 +199,35 @@ def get_user_sort(ds):
 
         if int(type_sort) == 1:
             # Since bogosort takes a long time, we can shorten the time the algorithm spends running
-            print(f"Time Required: {bogo_sort(data_set=ds[:len(ds) // 100]) * 100000}ms")
+            timing = bogo_sort(data_set=ds[:len(ds) // 100]) * 100000
+            print(f"Time Required: {timing}ms")
+            bogo_avg.append(timing)
         elif int(type_sort) == 2:
             timing = bubble_sort(data_set=ds)
+            bubble_avg.append(timing)
         elif int(type_sort) == 3:
             timing = merge_sort(data_set=ds)
+            merge_avg.append(timing)
         elif int(type_sort) == 4:
             timing = counting_sort(data_set=ds)
+            counting_avg.append(timing)
         else:
             print("That is an invalid choice!")
         if timing != -1:
             print(f"Time Required: {timing * 1000}ms")
         input("Press Enter to continue...")
         clear()
+    clear()
+    if input("Do you want to see sorting averages (Y or N): ").lower() == 'y':
+        if bogo_avg:
+            print(f"Bogo Sort Avg: {sum(bogo_avg) / len(bogo_avg)}ms")
+        if bubble_avg:
+            print(f"Bubble Sort Avg: {sum(bubble_avg) / len(bubble_avg)}ms")
+        if merge_avg:
+            print(f"Merge Sort Avg: {sum(merge_avg) / len(merge_avg)}ms")
+        if counting_avg:
+            print(f"Counting Sort Avg: {sum(counting_avg) / len(counting_avg)}ms")
+        input("Press Enter to quit...")
     print("Exiting...")
 
 
@@ -228,7 +248,6 @@ def main():
     clear()
     get_user_sort(ds)
     time.sleep(0.5)
-    return
 
 
 if __name__ == "__main__":
