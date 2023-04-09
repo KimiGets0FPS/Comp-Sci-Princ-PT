@@ -9,6 +9,8 @@ import os
 
 def clear():
     """
+	Used: https://stackoverflow.com/questions/2084508/clear-terminal-in-python
+
     This function is used to clear the terminal
     """
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -30,6 +32,7 @@ def check(data_set):
 
 def bogo_sort(data_set):
     """
+	Wikipedia page: https://en.wikipedia.org/wiki/Bogosort
     This function shuffles the parameter data_set until it is sorted.
     returns end - time spent sorting
 
@@ -53,11 +56,13 @@ def bogo_sort(data_set):
     end = time.time() - start
     if check(data_set=data_set) == -1:
         return -1
-    return end
+    return end * 1000
 
 
 def bubble_sort(data_set):  # Basic Bubble sort algorithm
     """
+	Wikipedia: https://en.wikipedia.org/wiki/Bubble_sort
+
     Goes through the parameter data_set n^2 times
     Swaps the previous data_set element with the current one if the previous one is greater than the current one.
     returns end - time spent sorting
@@ -70,11 +75,13 @@ def bubble_sort(data_set):  # Basic Bubble sort algorithm
     end = time.time() - start  # Generate the time and subtract it from the starting time to get the time spent sorting
     if check(data_set=data_set) == -1:  # Checks whether if the data_set is sorted or not
         return -1
-    return end
+    return end * 1000
 
 
 def merge_sort(data_set):
     """
+	Wikipedia: https://en.wikipedia.org/wiki/Merge_sort
+
     Keeps splitting the parameter data_set into two halves until it is sorted.
 
     Returns end - time spent sorting when done
@@ -121,11 +128,13 @@ def merge_sort(data_set):
 
     if check(data_set=data_set) == -1:
         return -1
-    return end
+    return end * 1000
 
 
 def counting_sort(data_set):
     """
+	Wikipedia: https://en.wikipedia.org/wiki/Counting_sort
+
     Sorts the parameter data_set using the counting sort algorithm. Uses counting (literally) to compress and
     decompress the data_set array
 
@@ -147,7 +156,7 @@ def counting_sort(data_set):
     end = time.time() - start  # Generate the time and subtract it from the starting time to get the time spent sorting
     if check(data_set=output) == -1:
         return -1
-    return end
+    return end * 1000
 
 
 def generate_data_set(size):
@@ -199,8 +208,7 @@ def get_user_sort(ds):
 
         if int(type_sort) == 1:
             # Since bogosort takes a long time, we can shorten the time the algorithm spends running
-            timing = bogo_sort(data_set=ds[:len(ds) // 100]) * 100000
-            print(f"Time Required: {timing}ms")
+            timing = bogo_sort(data_set=ds[:len(ds) // 100]) * 100
             bogo_avg.append(timing)
         elif int(type_sort) == 2:
             timing = bubble_sort(data_set=ds)
@@ -214,7 +222,7 @@ def get_user_sort(ds):
         else:
             print("That is an invalid choice!")
         if timing != -1:
-            print(f"Time Required: {timing * 1000}ms")
+            print(f"Time Required: {timing}ms")
         input("Press Enter to continue...")
         clear()
     clear()
@@ -252,4 +260,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+    clear()
     print("Thank you for using this program!")
